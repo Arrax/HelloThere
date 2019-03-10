@@ -1,0 +1,227 @@
+as86 -0 -a -o boot/bootsect.o boot/bootsect.s
+ld86 -0 -s -o boot/bootsect boot/bootsect.o
+as86 -0 -a -o boot/setup.o boot/setup.s
+ld86 -0 -s -o boot/setup boot/setup.o
+gcc-3.4 -m32 -g -I./include -traditional -c boot/head.s
+mv head.o boot/
+gcc-3.4 -march=i386  -m32 -g -Wall -O2 -fomit-frame-pointer  \
+-nostdinc -Iinclude -c -o init/main.o init/main.c
+init/main.c:23: warning: static declaration of 'fork' follows non-static declaration
+include/unistd.h:210: warning: previous declaration of 'fork' was here
+init/main.c:24: warning: static declaration of 'pause' follows non-static declaration
+include/unistd.h:224: warning: previous declaration of 'pause' was here
+init/main.c:26: warning: static declaration of 'sync' follows non-static declaration
+include/unistd.h:235: warning: previous declaration of 'sync' was here
+init/main.c:105: warning: return type of 'main' is not `int'
+(cd kernel; make)
+make[1]: 进入目录“/home/mightusa/oslab/linux-0.11/kernel”
+gcc-3.4 -march=i386 -m32 -g -Wall -O -fstrength-reduce -fomit-frame-pointer -finline-functions -nostdinc -I../include \
+-c -o sched.o sched.c
+as --32 -o system_call.o system_call.s
+system_call.s: Assembler messages:
+system_call.s:94: 警告： indirect call without `*'
+gcc-3.4 -march=i386 -m32 -g -Wall -O -fstrength-reduce -fomit-frame-pointer -finline-functions -nostdinc -I../include \
+-c -o traps.o traps.c
+In file included from traps.c:13:
+../include/string.h:129: warning: conflicting types for built-in function 'strchr'
+../include/string.h:146: warning: conflicting types for built-in function 'strrchr'
+../include/string.h:401: warning: conflicting types for built-in function 'memset'
+as --32 -o asm.o asm.s
+gcc-3.4 -march=i386 -m32 -g -Wall -O -fstrength-reduce -fomit-frame-pointer -finline-functions -nostdinc -I../include \
+-c -o fork.o fork.c
+gcc-3.4 -march=i386 -m32 -g -Wall -O -fstrength-reduce -fomit-frame-pointer -finline-functions -nostdinc -I../include \
+-c -o panic.o panic.c
+gcc-3.4 -march=i386 -m32 -g -Wall -O -fstrength-reduce -fomit-frame-pointer -finline-functions -nostdinc -I../include \
+-c -o printk.o printk.c
+gcc-3.4 -march=i386 -m32 -g -Wall -O -fstrength-reduce -fomit-frame-pointer -finline-functions -nostdinc -I../include \
+-c -o vsprintf.o vsprintf.c
+In file included from vsprintf.c:13:
+../include/string.h:129: warning: conflicting types for built-in function 'strchr'
+../include/string.h:146: warning: conflicting types for built-in function 'strrchr'
+../include/string.h:401: warning: conflicting types for built-in function 'memset'
+gcc-3.4 -march=i386 -m32 -g -Wall -O -fstrength-reduce -fomit-frame-pointer -finline-functions -nostdinc -I../include \
+-c -o sys.o sys.c
+gcc-3.4 -march=i386 -m32 -g -Wall -O -fstrength-reduce -fomit-frame-pointer -finline-functions -nostdinc -I../include \
+-c -o exit.o exit.c
+gcc-3.4 -march=i386 -m32 -g -Wall -O -fstrength-reduce -fomit-frame-pointer -finline-functions -nostdinc -I../include \
+-c -o signal.o signal.c
+gcc-3.4 -march=i386 -m32 -g -Wall -O -fstrength-reduce -fomit-frame-pointer -finline-functions -nostdinc -I../include \
+-c -o mktime.o mktime.c
+ld -m elf_i386 -r -o kernel.o sched.o system_call.o traps.o asm.o fork.o panic.o printk.o vsprintf.o sys.o exit.o signal.o mktime.o
+sync
+make[1]: 离开目录“/home/mightusa/oslab/linux-0.11/kernel”
+(cd mm; make)
+make[1]: 进入目录“/home/mightusa/oslab/linux-0.11/mm”
+gcc-3.4 -march=i386 -m32 -g -Wall -O -fstrength-reduce -fomit-frame-pointer -finline-functions -nostdinc -I../include \
+-c -o memory.o memory.c
+as --32 -o page.o page.s
+ld -m elf_i386 -r -o mm.o memory.o page.o
+make[1]: 离开目录“/home/mightusa/oslab/linux-0.11/mm”
+(cd fs; make)
+make[1]: 进入目录“/home/mightusa/oslab/linux-0.11/fs”
+gcc-3.4 -march=i386 -m32 -g -Wall -fstrength-reduce -fomit-frame-pointer -nostdinc -I../include \
+-c -o open.o open.c
+gcc-3.4 -march=i386 -m32 -g -Wall -fstrength-reduce -fomit-frame-pointer -nostdinc -I../include \
+-c -o read_write.o read_write.c
+gcc-3.4 -march=i386 -m32 -g -Wall -fstrength-reduce -fomit-frame-pointer -nostdinc -I../include \
+-c -o inode.o inode.c
+In file included from inode.c:7:
+../include/string.h:129: warning: conflicting types for built-in function 'strchr'
+../include/string.h:146: warning: conflicting types for built-in function 'strrchr'
+../include/string.h:401: warning: conflicting types for built-in function 'memset'
+gcc-3.4 -march=i386 -m32 -g -Wall -fstrength-reduce -fomit-frame-pointer -nostdinc -I../include \
+-c -o file_table.o file_table.c
+gcc-3.4 -march=i386 -m32 -g -Wall -fstrength-reduce -fomit-frame-pointer -nostdinc -I../include \
+-c -o buffer.o buffer.c
+gcc-3.4 -march=i386 -m32 -g -Wall -fstrength-reduce -fomit-frame-pointer -nostdinc -I../include \
+-c -o super.o super.c
+gcc-3.4 -march=i386 -m32 -g -Wall -fstrength-reduce -fomit-frame-pointer -nostdinc -I../include \
+-c -o block_dev.o block_dev.c
+gcc-3.4 -march=i386 -m32 -g -Wall -fstrength-reduce -fomit-frame-pointer -nostdinc -I../include \
+-c -o char_dev.o char_dev.c
+gcc-3.4 -march=i386 -m32 -g -Wall -fstrength-reduce -fomit-frame-pointer -nostdinc -I../include \
+-c -o file_dev.o file_dev.c
+gcc-3.4 -march=i386 -m32 -g -Wall -fstrength-reduce -fomit-frame-pointer -nostdinc -I../include \
+-c -o stat.o stat.c
+gcc-3.4 -march=i386 -m32 -g -Wall -fstrength-reduce -fomit-frame-pointer -nostdinc -I../include \
+-c -o exec.o exec.c
+In file included from exec.c:21:
+../include/string.h:129: warning: conflicting types for built-in function 'strchr'
+../include/string.h:146: warning: conflicting types for built-in function 'strrchr'
+../include/string.h:401: warning: conflicting types for built-in function 'memset'
+exec.c: In function `copy_strings':
+exec.c:140: warning: use of cast expressions as lvalues is deprecated
+gcc-3.4 -march=i386 -m32 -g -Wall -fstrength-reduce -fomit-frame-pointer -nostdinc -I../include \
+-c -o pipe.o pipe.c
+gcc-3.4 -march=i386 -m32 -g -Wall -fstrength-reduce -fomit-frame-pointer -nostdinc -I../include \
+-c -o namei.o namei.c
+In file included from namei.c:15:
+../include/string.h:129: warning: conflicting types for built-in function 'strchr'
+../include/string.h:146: warning: conflicting types for built-in function 'strrchr'
+../include/string.h:401: warning: conflicting types for built-in function 'memset'
+gcc-3.4 -march=i386 -m32 -g -Wall -fstrength-reduce -fomit-frame-pointer -nostdinc -I../include \
+-c -o bitmap.o bitmap.c
+In file included from bitmap.c:8:
+../include/string.h:129: warning: conflicting types for built-in function 'strchr'
+../include/string.h:146: warning: conflicting types for built-in function 'strrchr'
+../include/string.h:401: warning: conflicting types for built-in function 'memset'
+gcc-3.4 -march=i386 -m32 -g -Wall -fstrength-reduce -fomit-frame-pointer -nostdinc -I../include \
+-c -o fcntl.o fcntl.c
+gcc-3.4 -march=i386 -m32 -g -Wall -fstrength-reduce -fomit-frame-pointer -nostdinc -I../include \
+-c -o ioctl.o ioctl.c
+gcc-3.4 -march=i386 -m32 -g -Wall -fstrength-reduce -fomit-frame-pointer -nostdinc -I../include \
+-c -o truncate.o truncate.c
+ld -m elf_i386 -r -o fs.o open.o read_write.o inode.o file_table.o buffer.o super.o block_dev.o char_dev.o file_dev.o stat.o exec.o pipe.o namei.o bitmap.o fcntl.o ioctl.o truncate.o
+make[1]: 离开目录“/home/mightusa/oslab/linux-0.11/fs”
+(cd kernel/blk_drv; make)
+make[1]: 进入目录“/home/mightusa/oslab/linux-0.11/kernel/blk_drv”
+gcc-3.4 -march=i386 -m32 -g -Wall -O -fstrength-reduce -fomit-frame-pointer -finline-functions -nostdinc -I../../include \
+-c -o ll_rw_blk.o ll_rw_blk.c
+gcc-3.4 -march=i386 -m32 -g -Wall -O -fstrength-reduce -fomit-frame-pointer -finline-functions -nostdinc -I../../include \
+-c -o floppy.o floppy.c
+gcc-3.4 -march=i386 -m32 -g -Wall -O -fstrength-reduce -fomit-frame-pointer -finline-functions -nostdinc -I../../include \
+-c -o hd.o hd.c
+gcc-3.4 -march=i386 -m32 -g -Wall -O -fstrength-reduce -fomit-frame-pointer -finline-functions -nostdinc -I../../include \
+-c -o ramdisk.o ramdisk.c
+In file included from ramdisk.c:7:
+../../include/string.h:129: warning: conflicting types for built-in function 'strchr'
+../../include/string.h:146: warning: conflicting types for built-in function 'strrchr'
+../../include/string.h:401: warning: conflicting types for built-in function 'memset'
+ar rcs blk_drv.a ll_rw_blk.o floppy.o hd.o ramdisk.o
+sync
+make[1]: 离开目录“/home/mightusa/oslab/linux-0.11/kernel/blk_drv”
+(cd kernel/chr_drv; make)
+make[1]: 进入目录“/home/mightusa/oslab/linux-0.11/kernel/chr_drv”
+gcc-3.4 -march=i386 -m32 -g -Wall -O -fstrength-reduce -fomit-frame-pointer -finline-functions -nostdinc -I../../include \
+-c -o tty_io.o tty_io.c
+tty_io.c: In function `copy_to_cooked':
+tty_io.c:160: warning: subscript has type `char'
+tty_io.c: In function `tty_write':
+tty_io.c:316: warning: subscript has type `char'
+gcc-3.4 -march=i386 -m32 -g -Wall -O -fstrength-reduce -fomit-frame-pointer -finline-functions -nostdinc -I../../include \
+-c -o console.o console.c
+gcc-3.4 -m32 -g -E -nostdinc -I../../include -traditional keyboard.S -o keyboard.s
+as --32 -o keyboard.o keyboard.s
+keyboard.S: Assembler messages:
+keyboard.S:53: 警告： indirect call without `*'
+gcc-3.4 -march=i386 -m32 -g -Wall -O -fstrength-reduce -fomit-frame-pointer -finline-functions -nostdinc -I../../include \
+-c -o serial.o serial.c
+as --32 -o rs_io.o rs_io.s
+rs_io.s: Assembler messages:
+rs_io.s:65: 警告： indirect call without `*'
+gcc-3.4 -march=i386 -m32 -g -Wall -O -fstrength-reduce -fomit-frame-pointer -finline-functions -nostdinc -I../../include \
+-c -o tty_ioctl.o tty_ioctl.c
+ar rcs chr_drv.a tty_io.o console.o keyboard.o serial.o rs_io.o tty_ioctl.o
+sync
+make[1]: 离开目录“/home/mightusa/oslab/linux-0.11/kernel/chr_drv”
+(cd kernel/math; make)
+make[1]: 进入目录“/home/mightusa/oslab/linux-0.11/kernel/math”
+gcc-3.4 -march=i386 -m32 -g -Wall -O -fstrength-reduce -fomit-frame-pointer -finline-functions -nostdinc -I../../include \
+-c -o math_emulate.o math_emulate.c
+ar rcs math.a math_emulate.o
+sync
+make[1]: 离开目录“/home/mightusa/oslab/linux-0.11/kernel/math”
+(cd lib; make)
+make[1]: 进入目录“/home/mightusa/oslab/linux-0.11/lib”
+gcc-3.4 -march=i386 -m32 -g -Wall -O -fstrength-reduce -fomit-frame-pointer -finline-functions -nostdinc -I../include \
+-c -o ctype.o ctype.c
+gcc-3.4 -march=i386 -m32 -g -Wall -O -fstrength-reduce -fomit-frame-pointer -finline-functions -nostdinc -I../include \
+-c -o _exit.o _exit.c
+_exit.c: In function `_exit':
+_exit.c:13: warning: `noreturn' function does return
+gcc-3.4 -march=i386 -m32 -g -Wall -O -fstrength-reduce -fomit-frame-pointer -finline-functions -nostdinc -I../include \
+-c -o open.o open.c
+gcc-3.4 -march=i386 -m32 -g -Wall -O -fstrength-reduce -fomit-frame-pointer -finline-functions -nostdinc -I../include \
+-c -o close.o close.c
+gcc-3.4 -march=i386 -m32 -g -Wall -O -fstrength-reduce -fomit-frame-pointer -finline-functions -nostdinc -I../include \
+-c -o errno.o errno.c
+gcc-3.4 -march=i386 -m32 -g -Wall -O -fstrength-reduce -fomit-frame-pointer -finline-functions -nostdinc -I../include \
+-c -o write.o write.c
+gcc-3.4 -march=i386 -m32 -g -Wall -O -fstrength-reduce -fomit-frame-pointer -finline-functions -nostdinc -I../include \
+-c -o dup.o dup.c
+gcc-3.4 -march=i386 -m32 -g -Wall -O -fstrength-reduce -fomit-frame-pointer -finline-functions -nostdinc -I../include \
+-c -o setsid.o setsid.c
+gcc-3.4 -march=i386 -m32 -g -Wall -O -fstrength-reduce -fomit-frame-pointer -finline-functions -nostdinc -I../include \
+-c -o execve.o execve.c
+gcc-3.4 -march=i386 -m32 -g -Wall -O -fstrength-reduce -fomit-frame-pointer -finline-functions -nostdinc -I../include \
+-c -o wait.o wait.c
+gcc-3.4 -march=i386 -m32 -g -Wall -O -fstrength-reduce -fomit-frame-pointer -finline-functions -nostdinc -I../include \
+-c -o string.o string.c
+In file included from string.c:14:
+../include/string.h:129: warning: conflicting types for built-in function 'strchr'
+../include/string.h:146: warning: conflicting types for built-in function 'strrchr'
+../include/string.h:401: warning: conflicting types for built-in function 'memset'
+../include/string.h:39: warning: 'strncpy' defined but not used
+../include/string.h:69: warning: 'strncat' defined but not used
+../include/string.h:108: warning: 'strncmp' defined but not used
+../include/string.h:129: warning: 'strchr' defined but not used
+../include/string.h:146: warning: 'strrchr' defined but not used
+../include/string.h:369: warning: 'memcmp' defined but not used
+../include/string.h:401: warning: 'memset' defined but not used
+gcc-3.4 -march=i386 -m32 -g -Wall -O -fstrength-reduce -fomit-frame-pointer -finline-functions -nostdinc -I../include \
+-c -o malloc.o malloc.c
+malloc.c: In function `malloc':
+malloc.c:156: warning: use of cast expressions as lvalues is deprecated
+ar rcs lib.a ctype.o _exit.o open.o close.o errno.o write.o dup.o setsid.o execve.o wait.o string.o malloc.o
+sync
+make[1]: 离开目录“/home/mightusa/oslab/linux-0.11/lib”
+ld -m elf_i386 -Ttext 0 -e startup_32 boot/head.o init/main.o \
+kernel/kernel.o mm/mm.o fs/fs.o \
+kernel/blk_drv/blk_drv.a kernel/chr_drv/chr_drv.a \
+kernel/math/math.a \
+lib/lib.a \
+-o tools/system 
+nm tools/system | grep -v '\(compiled\)\|\(\.o$\)\|\( [aU] \)\|\(\.\.ng$\)\|\(LASH[RL]DI\)'| sort > System.map 
+gcc -m32 -g -Wall -O2 -fomit-frame-pointer  \
+-o tools/build tools/build.c
+cp -f tools/system system.tmp
+strip system.tmp
+objcopy -O binary -R .note -R .comment system.tmp tools/kernel
+tools/build boot/bootsect boot/setup tools/kernel  > Image
+Root device is (3, 1)
+Boot sector 512 bytes.
+Setup is 312 bytes.
+System is 121505 bytes.
+rm system.tmp
+rm tools/kernel -f
+sync
