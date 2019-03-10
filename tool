@@ -5,3 +5,5 @@
 1.ctags
 2.assembler
 3.dpg-asm
+4.Bochs 实验手册
+5.GDB 实验手册
